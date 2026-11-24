@@ -262,7 +262,11 @@ html:has(.opening-libras-dialog[open]) { overflow: hidden; scrollbar-gutter: sta
 }
 
 @media (max-width: 53rem) {
-  .portfolio-opening { padding-block: 2.7rem clamp(2.6rem, 6vw, 4.1rem); }
+  .portfolio-opening {
+    padding-block: 2.7rem clamp(2.6rem, 6vw, 4.1rem);
+    /* The film repeats the paper tile across three eighths of its width. */
+    background-size: calc((100vw - var(--gutter) * 2) * .375);
+  }
   .opening-grid { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
   .opening-copy h1 { font-size: clamp(3.75rem, 13vw, 7.75rem); }
   .opening-links { margin-top: 1.2rem; }
