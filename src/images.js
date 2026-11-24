@@ -129,6 +129,7 @@ export const images = [
     "id": "photo-5",
     "kind": "image",
     "group": "esporte",
+    "topics": ["bastidores"],
     "category": "Cobertura esportiva",
     "title": "Preparação para a reportagem",
     "alt": "Estou ao lado de um refletor, com o campo ao fundo.",
@@ -138,6 +139,7 @@ export const images = [
     "id": "photo-6",
     "kind": "image",
     "group": "esporte",
+    "topics": ["bastidores"],
     "category": "Cobertura esportiva",
     "title": "Gravação à beira do campo",
     "alt": "Uma equipe grava a mim e a uma colega, com o gramado ao fundo.",
@@ -156,6 +158,7 @@ export const images = [
     "id": "photo-8",
     "kind": "image",
     "group": "entrevistas",
+    "topics": ["bastidores"],
     "category": "Entrevistas",
     "title": "Bastidores do Hoje em Dia",
     "alt": "Poso no estúdio ao lado de uma apresentadora.",
@@ -225,33 +228,6 @@ export const images = [
     "src": "acervo/imagens/17.webp"
   },
   {
-    "id": "photo-18",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "Bastidores com a equipe",
-    "alt": "Faço uma selfie com um colega.",
-    "src": "acervo/imagens/18.webp"
-  },
-  {
-    "id": "photo-19",
-    "kind": "image",
-    "group": "entrevistas",
-    "category": "Entrevistas",
-    "title": "Entrevista na rua",
-    "alt": "Sinalizo ao lado de um entrevistado com microfone.",
-    "src": "acervo/imagens/19.webp"
-  },
-  {
-    "id": "photo-20",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "Encontro de equipe",
-    "alt": "Poso para uma foto com outros três profissionais.",
-    "src": "acervo/imagens/20.webp"
-  },
-  {
     "id": "photo-21",
     "kind": "image",
     "group": "tv",
@@ -288,15 +264,6 @@ export const images = [
     "src": "acervo/imagens/26.webp"
   },
   {
-    "id": "photo-27",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "Primeira Mão · apresentação",
-    "alt": "Apresento o programa diante de um painel com o logotipo.",
-    "src": "acervo/imagens/27.webp"
-  },
-  {
     "id": "photo-28",
     "kind": "image",
     "group": "tv",
@@ -304,24 +271,6 @@ export const images = [
     "title": "Primeira Mão · apresentação em dupla",
     "alt": "Apresento o programa ao lado de um colega. Nós dois usamos blusas azuis.",
     "src": "acervo/imagens/28.webp"
-  },
-  {
-    "id": "photo-29",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "Primeira Mão · chamada",
-    "alt": "Na chamada, apareço de blusa vermelha ao lado de um colega.",
-    "src": "acervo/imagens/29.webp"
-  },
-  {
-    "id": "photo-30",
-    "kind": "image",
-    "group": "eventos",
-    "category": "Palestras e eventos",
-    "title": "Registro em evento",
-    "alt": "Poso com um vestido escuro.",
-    "src": "acervo/imagens/30.webp"
   },
   {
     "id": "photo-31",
@@ -340,24 +289,6 @@ export const images = [
     "title": "Reportagem na cidade",
     "alt": "Apresento em um espaço aberto com edifícios ao fundo.",
     "src": "acervo/imagens/32.webp"
-  },
-  {
-    "id": "photo-33",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "Primeira Mão · chamada do telejornal",
-    "alt": "Apareço de azul em um cartaz do telejornal.",
-    "src": "acervo/imagens/33.webp"
-  },
-  {
-    "id": "photo-34",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "A programação da TV INES",
-    "alt": "Peça apresenta A Vida em Libras, Panorama Visual e Primeira Mão.",
-    "src": "acervo/imagens/34.webp"
   },
   {
     "id": "photo-35",
@@ -475,15 +406,6 @@ export const images = [
     "title": "Panorama Visual · Ilhas da Barra",
     "alt": "No cartaz, apareço à margem da água ao lado de uma foto da paisagem.",
     "src": "acervo/imagens/47.webp"
-  },
-  {
-    "id": "photo-48",
-    "kind": "image",
-    "group": "tv",
-    "category": "TV INES",
-    "title": "Primeira Mão · chamada de 6 de junho",
-    "alt": "Sorrio ao lado de um colega em frente ao cenário azul.",
-    "src": "acervo/imagens/48.webp"
   },
   {
     "id": "photo-49",
@@ -642,6 +564,7 @@ export const images = [
     "id": "photo-66",
     "kind": "image",
     "group": "tv",
+    "topics": ["bastidores"],
     "category": "TV INES",
     "title": "Gravação com a equipe",
     "alt": "Equipe de reportagem posa ao lado de uma câmera sobre um tripé.",
@@ -660,6 +583,7 @@ export const images = [
     "id": "photo-69",
     "kind": "image",
     "group": "tv",
+    "topics": ["bastidores"],
     "category": "TV INES",
     "title": "Reportagem nos bastidores",
     "alt": "Uma câmera me filma em um espaço amplo.",
@@ -669,6 +593,7 @@ export const images = [
     "id": "photo-71",
     "kind": "image",
     "group": "tv",
+    "topics": ["bastidores"],
     "category": "TV INES",
     "title": "Retorno de câmera",
     "alt": "Monitor de gravação exibe uma pessoa sinalizando.",
@@ -705,6 +630,7 @@ export const images = [
     "id": "photo-76",
     "kind": "image",
     "group": "tv",
+    "topics": ["bastidores"],
     "category": "TV INES",
     "title": "Primeira Mão · bastidores do cenário",
     "alt": "Poso de corpo inteiro no estúdio do telejornal.",
@@ -714,6 +640,7 @@ export const images = [
     "id": "photo-77",
     "kind": "image",
     "group": "tv",
+    "topics": ["bastidores"],
     "category": "TV INES",
     "title": "Gravação no estúdio",
     "alt": "Estou em pé no centro do cenário, vista de longe.",

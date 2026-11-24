@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { media, ted } from './content.js';
 import './archive.css';
 
-const filters = [['all', 'Tudo'], ['video', 'Vídeos'], ['image', 'Imagens']];
+const filters = [['all', 'Tudo'], ['video', 'Vídeos'], ['image', 'Imagens'], ['press', 'Na mídia']];
 const topics = [
   ['all', 'Todos os temas'],
   ['esporte', 'Cobertura esportiva'],
   ['tv', 'TV INES'],
   ['entrevistas', 'Entrevistas'],
   ['eventos', 'Palestras e eventos'],
+  ['bastidores', 'Bastidores'],
 ];
 const pageSize = 9;
 
@@ -18,7 +19,7 @@ function normalizeSearch(text) {
 
 const indexedMedia = media.map((item) => ({
   item,
-  searchable: normalizeSearch([item.title, item.category, item.description, item.alt].join(' ')),
+  searchable: normalizeSearch([item.title, item.category, item.source, item.description, item.alt, ...(item.topics ?? [])].join(' ')),
 }));
 
 export function FeaturedTalk() {
@@ -63,15 +64,16 @@ function MediaDialog({ item, trigger, onClose }) {
 
 function MediaCard({ item, onOpen }) {
   const video = item.kind === 'video';
+  const preview = item.poster ?? item.src;
   const content = (
     <>
-      <span className="media-image">
-        <img src={video ? item.poster : item.src} alt="" loading="lazy" />
+      <span className={`media-image${item.href ? ' media-image--link' : ''}${preview ? '' : ' media-image--source'}`}>
+        {preview ? <img src={preview} alt="" loading="lazy" /> : <span aria-hidden="true">{item.source}</span>}
         <span className={`media-action${video && !item.href ? ' play' : ''}`} aria-hidden="true">{item.href ? '↗' : !video && '+'}</span>
       </span>
-      <span className="media-meta eyebrow">{item.category}</span>
+      <span className="media-meta eyebrow">{item.category}{item.source ? ` · ${item.source}` : ''}</span>
       <span className="media-title">{item.title}</span>
-      {item.href && <span className="archive-origin">Assistir no Google Drive</span>}
+      {item.linkLabel && <span className="archive-origin">{item.linkLabel}</span>}
     </>
   );
 
@@ -91,7 +93,7 @@ export default function Archive() {
   const terms = normalizeSearch(query).trim().split(/\s+/).filter(Boolean);
   const filtered = indexedMedia.filter(({ item, searchable }) => (
     (filter === 'all' || item.kind === filter)
-    && (topic === 'all' || item.group === topic)
+    && (topic === 'all' || item.group === topic || item.topics?.includes(topic))
     && terms.every((term) => searchable.includes(term))
   ));
   const filterIsActive = filter !== 'all' || topic !== 'all' || query.length > 0;
@@ -113,13 +115,13 @@ export default function Archive() {
             <h1 className="page-title" id="archive-title">Libras em cena<span>.</span></h1>
           </div>
           <div className="archive-intro-copy">
-            <p>Reuni aqui minhas reportagens, entrevistas, palestras e registros dos bastidores da TV INES.</p>
+            <p>Reuni aqui minhas reportagens, entrevistas e palestras, além de registros dos bastidores e matérias sobre minha trajetória.</p>
             <a href="#catalogo-acervo">Explore meu acervo <span aria-hidden="true">↓</span></a>
           </div>
         </div>
         <FeaturedTalk />
         <section className="archive-catalog" id="catalogo-acervo" aria-labelledby="archive-catalog-title">
-          <h2 id="archive-catalog-title">Fotos e vídeos</h2>
+          <h2 id="archive-catalog-title">Fotos, vídeos e matérias</h2>
           <div className="archive-controls">
             <label className="archive-search">
               <span>Buscar no acervo</span>
@@ -127,8 +129,8 @@ export default function Archive() {
                 onChange={(event) => { setQuery(event.target.value); setLimit(pageSize); }} />
             </label>
             <label className="archive-topics">
-              <span>Tema</span>
-              <select value={topic} onChange={(event) => { setTopic(event.target.value); setLimit(pageSize); }}>
+              <span id="archive-topic-label">Tema</span>
+              <select aria-labelledby="archive-topic-label" value={topic} onChange={(event) => { setTopic(event.target.value); setLimit(pageSize); }}>
                 {topics.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
               </select>
             </label>

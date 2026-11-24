@@ -60,6 +60,7 @@ function Home() {
             <p>Me formei em Letras-Libras na UFSC e pesquiso Literatura Comparada na UFRJ. Trabalho em Libras na universidade e na televisão.</p>
             <div className="trajectory-actions">
               <a className="text-link" href={sitePath('trajetoria/#formacao')}>Minha formação acadêmica <Arrow direction="right" /></a>
+              <a className="text-link" href={sitePath('trajetoria/#projetos')}>Meus projetos <Arrow direction="right" /></a>
               <a className="text-link" href={sitePath('trajetoria/#midia')}>Minha carreira na TV <Arrow direction="right" /></a>
             </div>
           </div>
@@ -106,6 +107,7 @@ function Biography() {
       <nav className="trajectory-index" aria-label="Nesta página">
         <div className="shell">
           <a href="#formacao">Minha formação <Arrow direction="down" /></a>
+          <a href="#projetos">Meus projetos <Arrow direction="down" /></a>
           <a href="#atuacao">Minhas áreas de atuação <Arrow direction="down" /></a>
           <a href="#midia">Minha carreira na TV e no palco <Arrow direction="down" /></a>
         </div>

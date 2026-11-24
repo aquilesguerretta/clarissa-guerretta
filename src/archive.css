@@ -273,6 +273,20 @@
   aspect-ratio: 4 / 3;
 }
 
+.archive-catalog .media-image--link img,
+.archive-catalog .media-image--source {
+  aspect-ratio: 16 / 9;
+}
+
+.archive-catalog .media-image--source {
+  display: grid;
+  align-items: end;
+  padding: clamp(.7rem, 2vw, 1.6rem);
+  color: var(--night);
+  background: var(--ice);
+  font: 400 clamp(1.65rem, 4.6vw, 4.5rem)/.95 var(--serif);
+}
+
 .archive-page .archive-catalog .media-meta {
   margin-top: .7rem;
   color: var(--accent);

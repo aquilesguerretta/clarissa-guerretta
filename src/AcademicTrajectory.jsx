@@ -3,7 +3,9 @@ import { sitePath } from './sitePath.js';
 import './academic.css';
 
 const sources = {
-  sopa: 'https://sopa-lab.wixsite.com/sopa-lab/perfil/clarissa',
+  sopa: 'https://sopa-lab.wixsite.com/sopa/perfil/clarissa',
+  sopaHistory: 'https://sopa-lab.wixsite.com/sopa/sobre',
+  farmaLibras: 'https://www.farmalibras.com.br/saibaMais',
   department: 'https://www.portal.letras.ufrj.br/institucional/departamentos/letras-libras.html',
   thesis: 'https://posciencialit.letras.ufrj.br/dissertacoes-2021-2024/',
   coordination: 'https://siarq.ufrj.br/wp-content/uploads/2024/07/Compilado-semanal-27-2024.pdf',
@@ -107,6 +109,50 @@ export default function AcademicTrajectory() {
             ))}
           </ul>
         </div>
+
+        <section className="academic-projects" id="projetos" aria-labelledby="academic-projects-title">
+          <h3 id="academic-projects-title">Meus projetos</h3>
+
+          <article className="academic-project" aria-labelledby="sopa-lab-title">
+            <div className="academic-project-copy">
+              <h4 id="sopa-lab-title">SOPA-Lab</h4>
+              <p>Participo do Laboratório de Línguas de Sinais e Orais em Psicolinguística e Aquisição da UFRJ. Em julho de 2022, criei o sinal do laboratório em Libras.</p>
+              <div className="academic-project-links">
+                <ExternalLink href={sources.sopa}>Meu perfil no SOPA-Lab</ExternalLink>
+                <ExternalLink href={sources.sopaHistory}>Histórico do laboratório</ExternalLink>
+              </div>
+            </div>
+
+            <figure className="academic-project-film">
+              <video controls playsInline preload="none" width="576" height="480"
+                src={sitePath('acervo/videos/sopa-lab-sinal.mp4')}
+                poster={sitePath('acervo/imagens/sopa-lab-sinal.webp')}
+                aria-labelledby="sopa-lab-film-caption" />
+              <figcaption id="sopa-lab-film-caption">A professora Marília Lott apresenta o sinal que criei para o SOPA-Lab.</figcaption>
+            </figure>
+          </article>
+
+          <article className="academic-project" aria-labelledby="farmalibras-title">
+            <div className="academic-project-copy">
+              <h4 id="farmalibras-title">FarmaLibras</h4>
+              <p>Colaboro com o FarmaLibras pelo Rio de Janeiro, na equipe da região Sudeste. O Conselho Federal de Farmácia e a Universidade Federal do Vale do São Francisco desenvolvem o programa para facilitar a comunicação em Libras no atendimento farmacêutico.</p>
+              <div className="academic-project-links">
+                <ExternalLink href={sources.farmaLibras}>Conhecer o FarmaLibras</ExternalLink>
+              </div>
+            </div>
+
+            <div className="academic-project-gallery">
+              <figure>
+                <img src={sitePath('acervo/imagens/farmalibras-gravacao.webp')} width="528" height="302" loading="lazy" decoding="async" alt="Sinalizo em Libras em uma gravação sobre o Centro de Informação sobre Medicamentos." />
+                <figcaption>Minha participação em vídeo no FarmaLibras.</figcaption>
+              </figure>
+              <figure>
+                <img src={sitePath('acervo/imagens/farmalibras-dia-nacional-surdo.webp')} width="278" height="348" loading="lazy" decoding="async" alt="Arte do FarmaLibras com retratos da equipe e uma mensagem sobre a língua, a cultura e a identidade da comunidade surda." />
+                <figcaption>Campanha do Dia Nacional do Surdo.</figcaption>
+              </figure>
+            </div>
+          </article>
+        </section>
 
         <nav className="academic-profiles" aria-labelledby="academic-profiles-title">
           <h3 id="academic-profiles-title">Meu currículo e meus perfis</h3>
