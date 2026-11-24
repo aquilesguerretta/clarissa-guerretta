@@ -10,7 +10,7 @@
 .library-intro {
   padding-block: clamp(2.7rem, 5.45vw, 5.4rem) clamp(2.8rem, 6.3vw, 5.9rem);
   color: var(--inverse-text);
-  background: var(--pine);
+  background: var(--night);
 }
 
 .library-intro .library-inner {
@@ -94,7 +94,7 @@
   display: grid;
   place-items: center;
   min-height: clamp(14rem, 26vw, 22rem);
-  background: var(--paper-tint);
+  background: var(--ice);
   overflow: hidden;
 }
 
@@ -303,13 +303,13 @@
 }
 
 .library-card {
-  --cover-mat: #d5e7ee;
+  --cover-mat: #c4d5e2;
   min-width: 0;
   scroll-snap-align: start;
 }
 
 .library-card:nth-child(4n + 2) {
-  --cover-mat: #dce8e0;
+  --cover-mat: #dcbeae;
 }
 
 .library-card:nth-child(4n + 3) {
@@ -317,7 +317,7 @@
 }
 
 .library-card:nth-child(4n + 4) {
-  --cover-mat: #e7ecec;
+  --cover-mat: #d9cedd;
 }
 
 .library-band--research .library-card {

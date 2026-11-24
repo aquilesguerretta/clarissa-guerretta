@@ -1,7 +1,7 @@
 .portfolio-opening {
   padding-block: clamp(3.15rem, 6.25vw, 6.8rem) clamp(3.6rem, 7.3vw, 7.4rem);
-  color: var(--pine);
-  background: var(--paper);
+  color: var(--inverse-text);
+  background: var(--pine);
 }
 
 .opening-grid {
@@ -16,7 +16,7 @@
   align-items: center;
   gap: .7rem;
   margin-bottom: clamp(.8rem, 1.5vw, 1.3rem);
-  color: var(--accent);
+  color: var(--highlight);
   font: 600 .79rem/1.4 var(--sans);
   letter-spacing: .045em;
 }
@@ -34,10 +34,12 @@
 }
 
 .opening-copy h1 > span { display: block; }
+.opening-copy h1 > span:last-child { color: var(--ice); }
 
 @media (prefers-reduced-motion: no-preference) {
   .opening-copy h1 > span { animation: opening-name-in .58s var(--ease-out) both; }
   .opening-copy h1 > span:last-child { animation-delay: .07s; }
+  .opening-art-panel { animation: opening-image-in .7s var(--ease-out) both; }
 }
 
 @keyframes opening-name-in {
@@ -45,10 +47,15 @@
   to { transform: none; opacity: 1; }
 }
 
+@keyframes opening-image-in {
+  from { clip-path: inset(0 0 9% 0); opacity: .7; }
+  to { clip-path: inset(0); opacity: 1; }
+}
+
 .opening-description {
   max-width: 26rem;
   margin-top: clamp(1.2rem, 1.8vw, 1.8rem);
-  color: var(--muted);
+  color: var(--night-muted);
   font-size: clamp(1rem, 1.25vw, 1.17rem);
   line-height: 1.57;
   text-wrap: pretty;
@@ -75,7 +82,7 @@
 }
 
 .opening-links a {
-  color: var(--pine);
+  color: var(--inverse-text);
   text-decoration-thickness: 1px;
   text-underline-offset: .25em;
 }
@@ -86,15 +93,15 @@
 
 .opening-libras {
   padding: .55rem .95rem;
-  border: 1px solid var(--pine);
-  color: var(--inverse-text);
-  background: var(--pine);
+  border: 1px solid var(--highlight);
+  color: var(--pine);
+  background: var(--highlight);
   cursor: pointer;
   transition: background-color .2s var(--ease-out), color .2s var(--ease-out);
 }
 
-.opening-libras:hover { color: var(--pine); background: transparent; }
-.opening-libras:focus-visible { outline-color: var(--pine); }
+.opening-libras:hover { color: var(--pine); background: var(--inverse-text); border-color: var(--inverse-text); }
+.opening-libras:focus-visible { outline-color: var(--inverse-text); }
 
 .opening-artwork { min-width: 0; }
 
@@ -102,7 +109,7 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  background: var(--paper-tint);
+  background: var(--night);
 }
 
 .opening-art-poster,
@@ -128,7 +135,7 @@
   align-items: center;
   gap: .35rem .75rem;
   margin: .17rem 0 0;
-  color: var(--muted);
+  color: var(--night-muted);
   font-size: .8rem;
 }
 
@@ -140,7 +147,7 @@
   min-height: 2.75rem;
   padding: .2rem 0 .2rem .15rem;
   border: 0;
-  color: var(--pine);
+  color: var(--inverse-text);
   background: transparent;
   font-size: .8rem;
   font-weight: 600;
