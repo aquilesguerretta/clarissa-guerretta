@@ -1,0 +1,311 @@
+.academic {
+  --academic-rule: #bfb9ac;
+  --academic-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  color: var(--pine-deep);
+  background: var(--paper);
+}
+
+.academic > .shell {
+  padding-block: clamp(3rem, 7.5vw, 7.75rem);
+}
+
+.academic-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 22rem);
+  align-items: end;
+  gap: 1rem clamp(1.25rem, 4vw, 4rem);
+  margin-bottom: clamp(1.75rem, 4.15vw, 4.1rem);
+  padding-block: clamp(1.4rem, 3.1vw, 3rem) clamp(1.4rem, 3vw, 3rem);
+  border-block: 1px solid var(--academic-rule);
+}
+
+.academic-heading h2 {
+  font: 800 clamp(4rem, 12.1vw, 11.75rem)/.88 var(--display);
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+}
+
+.academic-heading p {
+  max-width: 31ch;
+  margin-bottom: .2rem;
+  padding: .7rem 0 .1rem clamp(.85rem, 2vw, 1.55rem);
+  border-left: .25rem solid var(--coral);
+  font-size: clamp(1rem, 1.55vw, 1.18rem);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.academic-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+  gap: clamp(1.6rem, 5.35vw, 5.25rem);
+  align-items: start;
+}
+
+.academic h3 {
+  font: 800 clamp(2.25rem, 3.65vw, 4rem)/.88 var(--display);
+  letter-spacing: -.012em;
+  text-transform: uppercase;
+}
+
+.academic h4 {
+  margin: 0;
+  font: 700 clamp(1.45rem, 2.2vw, 2.15rem)/.99 var(--display);
+}
+
+.academic-training h3 {
+  margin-bottom: 1.1rem;
+}
+
+.academic-education {
+  border-top: 1px solid var(--academic-rule);
+}
+
+.academic-education li {
+  display: grid;
+  grid-template-columns: minmax(5.35rem, 24%) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: clamp(.95rem, 2vw, 1.65rem);
+  border-bottom: 1px solid var(--academic-rule);
+}
+
+.academic-period {
+  color: #a33223;
+  font: 800 clamp(1.36rem, 3.12vw, 2.8rem)/.87 var(--display);
+}
+
+.academic-education p {
+  margin-top: .45rem;
+  font-size: .94rem;
+  line-height: 1.4;
+}
+
+.academic-training > .text-link {
+  margin-top: .9rem;
+}
+
+.academic-research {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(5.75rem, 10.5vw, 10rem);
+  align-content: start;
+  align-items: start;
+  gap: .8rem clamp(1rem, 2.3vw, 2.1rem);
+  padding: clamp(1.2rem, 3vw, 2.8rem);
+  border-top: .3rem solid var(--coral);
+  color: var(--cream);
+  background: var(--pine-deep);
+}
+
+.academic-research::before {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  width: 100%;
+  aspect-ratio: .715;
+  margin-block: .42rem .7rem;
+  border: 1px solid #efe2c9;
+  background: #efe2c9 url('/capas/invisibilidade-mulheres-surdas.webp') center / contain no-repeat;
+  box-shadow: .35rem .35rem 0 #241a23, .6rem .6rem 0 var(--coral);
+  transform: rotate(-3deg);
+  content: '';
+}
+
+.academic-research > .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: .4rem;
+  color: var(--coral);
+  font-family: var(--academic-mono);
+  font-size: .71rem;
+  letter-spacing: .095em;
+}
+
+.academic-research h3 {
+  grid-column: 1;
+  max-width: 18ch;
+  color: var(--cream);
+  font: 400 clamp(2.65rem, 4.25vw, 4.65rem)/.89 var(--serif);
+  letter-spacing: -.025em;
+  text-transform: none;
+}
+
+.academic-research h3 span {
+  display: block;
+  max-width: 25ch;
+  margin-top: .8rem;
+  color: var(--lilac);
+  font: 700 clamp(1.21rem, 1.9vw, 1.7rem)/1 var(--display);
+  letter-spacing: 0;
+}
+
+.academic-research > p:not(.eyebrow),
+.academic-appointments li p:not(.academic-period),
+.academic-international p {
+  font-size: .95rem;
+  line-height: 1.52;
+  text-wrap: pretty;
+}
+
+.academic-research > p:not(.eyebrow) {
+  grid-column: 1;
+}
+
+.academic-research-links {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: .1rem 1.15rem;
+  align-items: center;
+  margin-top: .35rem;
+}
+
+.academic-research a {
+  color: var(--cream);
+}
+
+.academic-research a:hover {
+  color: var(--coral);
+}
+
+.academic-international {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: .4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #708476;
+}
+
+.academic-international h4 {
+  color: var(--lilac);
+}
+
+.academic-appointments {
+  margin-top: clamp(2.75rem, 6.5vw, 6.8rem);
+}
+
+.academic-appointments ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--academic-rule);
+}
+
+.academic-appointments li {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: start;
+  gap: .55rem;
+  min-width: 0;
+  padding: clamp(1rem, 2.8vw, 2.45rem) 1rem clamp(1rem, 2.75vw, 2.15rem) 0;
+  border-bottom: 1px solid var(--academic-rule);
+}
+
+.academic-appointments li:nth-child(2n) {
+  padding-left: clamp(1rem, 3.8vw, 3.75rem);
+  border-left: 1px solid var(--academic-rule);
+}
+
+.academic-appointments li p:not(.academic-period) {
+  max-width: 53ch;
+}
+
+.academic-appointments .academic-period {
+  margin-bottom: .25rem;
+  font: 600 .75rem/1.1 var(--academic-mono);
+  letter-spacing: .085em;
+}
+
+.academic-profiles {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .45rem clamp(1rem, 3vw, 2.5rem);
+  margin-top: clamp(2.4rem, 5vw, 4.65rem);
+  padding-block: .85rem;
+  border-block: 1px solid var(--academic-rule);
+}
+
+.academic-profiles h3 {
+  font-size: 1.65rem;
+}
+
+.academic-profiles ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.15rem;
+}
+
+.academic .academic-publications {
+  min-height: 2.75rem;
+  padding: .7rem .9rem;
+  color: var(--cream);
+  background: var(--pine-deep);
+  text-decoration: none;
+}
+
+.academic .academic-publications:hover {
+  color: var(--pine-deep);
+  background: var(--coral);
+}
+
+@media (max-width: 63rem) {
+  .academic-heading h2 {
+    font-size: clamp(3.85rem, 10.7vw, 7.5rem);
+  }
+
+  .academic-grid {
+    gap: clamp(1.35rem, 3vw, 2.6rem);
+  }
+
+  .academic-research {
+    grid-template-columns: minmax(0, 1fr) clamp(4.85rem, 9vw, 6.15rem);
+  }
+
+  .academic-research > p:not(.eyebrow) {
+    grid-column: 1 / -1;
+  }
+
+  .academic-research::before {
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 48rem) {
+  .academic-heading, .academic-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .academic-heading {
+    gap: 1.35rem;
+  }
+
+  .academic-heading h2 {
+    font-size: clamp(3.75rem, 13vw, 7rem);
+  }
+
+  .academic-grid {
+    gap: 2.2rem;
+  }
+
+  .academic-research {
+    grid-template-columns: minmax(0, 1fr) clamp(4.15rem, 16vw, 6.65rem);
+  }
+
+  .academic-profiles {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 35rem) {
+  .academic-appointments ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .academic-appointments li:nth-child(2n) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .academic-research h3 {
+    font-size: clamp(2.35rem, 9.2vw, 3.55rem);
+  }
+}
