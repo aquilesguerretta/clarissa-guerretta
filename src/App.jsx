@@ -35,10 +35,7 @@ function Header({ page }) {
       }
     }}>
       <div className="shell header-inner">
-        <a className="signature" href={sitePath()} aria-label="Clarissa Guerretta — início">
-          <span className="signature-mark" aria-hidden="true">CG<b>.</b></span>
-          <span className="signature-name" aria-hidden="true">Clarissa<br />Guerretta</span>
-        </a>
+        <a className="signature" href={sitePath()} aria-label="Clarissa Guerretta — início">Clarissa Guerretta</a>
         <button ref={toggle} className="menu-toggle" type="button" aria-controls="navigation" aria-expanded={open} onClick={() => setOpen(!open)}>
           {open ? 'Fechar' : 'Menu'} <span aria-hidden="true">{open ? '×' : '+'}</span>
         </button>
@@ -183,14 +180,18 @@ function Footer({ page }) {
     <footer className="site-footer" id={page === 'inicio' ? 'contato' : undefined}>
       <div className="shell">
         <div className="footer-main">
-          <p className="footer-name">Clarissa<br />Guerretta<span aria-hidden="true">.</span></p>
-          <div>
+          <p className="footer-name">Clarissa Guerretta</p>
+          <div className="footer-contact">
             <p className="eyebrow">Fale comigo</p>
             <a className="text-link" href={`mailto:${email}`}>{email} <Arrow /></a>
             {page !== 'contato' && <a className="text-link footer-more" href={sitePath('contato/')}>Meus contatos <Arrow direction="right" /></a>}
           </div>
           <nav className="footer-index" aria-label="Páginas do portfólio">
-            {sections.filter(([id]) => id !== 'contato').map(([id, label]) => <a key={id} href={sitePath(`${id}/`)}>{label} <Arrow direction="right" /></a>)}
+            {sections.filter(([id]) => id !== 'contato').map(([id, label]) => (
+              <a key={id} href={sitePath(`${id}/`)} aria-current={page === id ? 'page' : undefined}>
+                {label} <Arrow direction="right" />
+              </a>
+            ))}
           </nav>
         </div>
         <div className="footer-bottom"><span>Rio de Janeiro, Brasil</span><a href="#inicio">Voltar ao topo <Arrow direction="up" /></a></div>

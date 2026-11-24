@@ -13,10 +13,6 @@ npm run dev
 
 `npm run build` gera o site estático em `dist/`. `npm run preview` serve essa versão para conferência.
 
-## Publicar
-
-O workflow em `.github/workflows/pages.yml` publica o site no GitHub Pages a cada push na branch `main`. O caminho de publicação vem da configuração do Pages e o ambiente local usa `/`.
-
 ## Atualizar o conteúdo
 
 - Edite `src/content.js` para atualizar os vídeos, as publicações, o contato e os textos de atuação.

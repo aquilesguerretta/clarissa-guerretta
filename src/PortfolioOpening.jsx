@@ -17,7 +17,7 @@ export default function PortfolioOpening() {
   const librasTrigger = useRef(null);
   const [motionEnabled, setMotionEnabled] = useState(prefersMotion);
   const [inView, setInView] = useState(false);
-  const [posterReady, setPosterReady] = useState(false);
+  const [posterFailed, setPosterFailed] = useState(false);
   const [filmReady, setFilmReady] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const artworkMoving = motionEnabled && inView && !dialogOpen;
@@ -54,19 +54,6 @@ export default function PortfolioOpening() {
     else film.pause();
   }, [artworkMoving]);
 
-  function shiftLight(event) {
-    if (!artworkMoving || event.pointerType !== 'mouse') return;
-    const element = event.currentTarget;
-    const bounds = element.getBoundingClientRect();
-    element.style.setProperty('--opening-x', (((event.clientX - bounds.left) / bounds.width) - 0.5) * 18 + 'px');
-    element.style.setProperty('--opening-y', (((event.clientY - bounds.top) / bounds.height) - 0.5) * 12 + 'px');
-  }
-
-  function centerLight(event) {
-    event.currentTarget.style.removeProperty('--opening-x');
-    event.currentTarget.style.removeProperty('--opening-y');
-  }
-
   function showLibras() {
     librasDialog.current.showModal();
     setDialogOpen(true);
@@ -85,8 +72,8 @@ export default function PortfolioOpening() {
     <section className="portfolio-opening" aria-labelledby="opening-name">
       <div className="shell opening-grid">
         <div className="opening-copy">
-          <p className="opening-kicker">Libras <span aria-hidden="true">/</span> Cultura Surda</p>
-          <h1 id="opening-name"><span>Clarissa</span>{' '}<span>Guerretta<span aria-hidden="true">.</span></span></h1>
+          <p className="opening-kicker">Libras e cultura Surda</p>
+          <h1 id="opening-name"><span>Clarissa</span>{' '}<span>Guerretta</span></h1>
           <p className="opening-description">Sou professora de Libras na UFRJ, pesquisadora e apresentadora.</p>
           <div className="opening-links">
             <button ref={librasTrigger} type="button" className="opening-libras" aria-haspopup="dialog" onClick={showLibras}>
@@ -99,26 +86,18 @@ export default function PortfolioOpening() {
           </div>
         </div>
 
-        <figure className="opening-artwork" ref={artwork} data-moving={artworkMoving}
-          onPointerMove={shiftLight} onPointerLeave={centerLight}>
-          <div className="opening-art-frame">
-            <div className="opening-art-panel" aria-hidden="true">
-              <div className="opening-photographs">
-                <img className="opening-contact-print" src={photographs + 'clarissa-copa.webp'} alt="" />
-                <img className="opening-portrait-print" src={photographs + 'clarissa-tv-ines.webp'} alt="" />
-              </div>
-              <img className="opening-art-poster" src={highlights + 'abertura-motion.webp'} alt=""
-                data-ready={posterReady} onLoad={() => setPosterReady(true)} />
-              <video ref={motionFilm} className="opening-art-film" src={highlights + 'abertura-motion.mp4'}
-                aria-hidden="true" muted playsInline loop preload="none" data-ready={filmReady}
-                onLoadedData={() => setFilmReady(true)} onError={() => setFilmReady(false)} />
-              <div className="opening-art-light" />
-              <div className="opening-art-guide" />
-            </div>
+        <figure className="opening-artwork" ref={artwork}>
+          <div className="opening-art-panel" aria-hidden="true">
+            <img className="opening-art-poster"
+              src={posterFailed ? photographs + 'clarissa-tv-ines.webp' : highlights + 'abertura-motion.webp'}
+              alt="" width="1152" height="648" fetchPriority="high" onError={() => setPosterFailed(true)} />
+            <video ref={motionFilm} className="opening-art-film" src={highlights + 'abertura-motion.mp4'}
+              muted playsInline loop preload="none" data-ready={filmReady}
+              onLoadedData={() => setFilmReady(true)} onError={() => setFilmReady(false)} />
           </div>
           <figcaption className="opening-art-caption">
-            <span>Fotografias do meu acervo</span>
-            <button className="opening-motion" type="button" onClick={() => setMotionEnabled(!motionEnabled)}>
+            <span>Imagens do meu acervo</span>
+            <button className="opening-motion" type="button" onClick={() => setMotionEnabled((enabled) => !enabled)}>
               <span className={motionEnabled ? 'opening-pause-icon' : 'opening-play-icon'} aria-hidden="true" />
               {motionEnabled ? 'Pausar movimento' : 'Ativar movimento'}
             </button>
