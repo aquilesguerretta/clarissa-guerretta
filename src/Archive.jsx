@@ -21,6 +21,9 @@ const indexedMedia = media.map((item) => ({
   item,
   searchable: normalizeSearch([item.title, item.category, item.source, item.description, item.alt, ...(item.topics ?? [])].join(' ')),
 }));
+const backstage = media.filter((item) => item.topics?.includes('bastidores'));
+const backstageLinks = backstage.filter((item) => item.href);
+const backstageGallery = backstage.filter((item) => !item.href);
 
 export function FeaturedTalk() {
   return (
@@ -116,10 +119,34 @@ export default function Archive() {
           </div>
           <div className="archive-intro-copy">
             <p>Reuni aqui minhas reportagens, entrevistas e palestras, além de registros dos bastidores e matérias sobre minha trajetória.</p>
-            <a href="#catalogo-acervo">Explore meu acervo <span aria-hidden="true">↓</span></a>
+            <nav className="archive-jumps" aria-label="Nesta página">
+              <a href="#bastidores">Bastidores <span aria-hidden="true">↓</span></a>
+              <a href="#catalogo-acervo">Explore meu acervo <span aria-hidden="true">↓</span></a>
+            </nav>
           </div>
         </div>
         <FeaturedTalk />
+        <section className="archive-backstage" id="bastidores" aria-labelledby="archive-backstage-title">
+          <div className="archive-backstage-header">
+            <h2 id="archive-backstage-title">Bastidores</h2>
+            <ul className="archive-backstage-links" aria-label="Vídeo e reportagem de bastidores">
+              {backstageLinks.map(({ href, title, linkLabel }) => (
+                <li key={href}>
+                  <a href={href} className="archive-backstage-link">
+                    <span>
+                      <span className="archive-backstage-link-title">{title}</span>
+                      <span className="archive-origin">{linkLabel}</span>
+                    </span>
+                    <span className="arrow" aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <ul className="archive-backstage-gallery" aria-label="Galeria de bastidores">
+            {backstageGallery.map((item) => <MediaCard key={item.src} item={item} onOpen={setSelected} />)}
+          </ul>
+        </section>
         <section className="archive-catalog" id="catalogo-acervo" aria-labelledby="archive-catalog-title">
           <h2 id="archive-catalog-title">Fotos, vídeos e matérias</h2>
           <div className="archive-controls">
