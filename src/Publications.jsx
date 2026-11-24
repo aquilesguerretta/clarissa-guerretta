@@ -205,7 +205,7 @@ export default function Publications() {
         <div className="library-inner shell">
           <div className="library-intro-copy">
             <p className="library-kicker">Minha pesquisa</p>
-            <h1 id="publications-title">Minhas publicações</h1>
+            <h1 id="publications-title"><span>Minhas</span> publicações</h1>
             <p className="library-deck">Reuni aqui livros, capítulos e trabalhos em que pesquiso Libras, educação bilíngue e protagonismo Surdo.</p>
             <nav className="library-jumps" aria-label="Nesta página">
               <a href="#livros">Livros <span aria-hidden="true">↓</span></a>
@@ -215,7 +215,9 @@ export default function Publications() {
           {featuredBook && (
             <a className="library-feature" href={featuredBook.href}>
               <span className="library-feature-mat">
-                <img src={coverFor(featuredBook.href)} alt="" width="400" height="560" fetchPriority="high" />
+                <span className="library-feature-object">
+                  <img src={coverFor(featuredBook.href)} alt="" width="530" height="768" fetchPriority="high" />
+                </span>
               </span>
               <span className="library-feature-caption">
                 <span>

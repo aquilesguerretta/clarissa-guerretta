@@ -74,11 +74,15 @@ function MediaCard({ item, onOpen }) {
     <>
       <span className={`media-image${item.href ? ' media-image--link' : ''}${preview ? '' : ' media-image--source'}`}>
         {preview ? <img src={preview} alt="" loading="lazy" /> : <span aria-hidden="true">{item.source}</span>}
+      </span>
+      <span className="media-caption">
+        <span className="media-caption-text">
+          <span className="media-meta eyebrow">{item.category}{item.source ? ` · ${item.source}` : ''}</span>
+          <span className="media-title">{item.title}</span>
+          {item.linkLabel && <span className="archive-origin">{item.linkLabel}</span>}
+        </span>
         <span className={`media-action${video && !item.href ? ' play' : ''}`} aria-hidden="true">{item.href ? '↗' : !video && '+'}</span>
       </span>
-      <span className="media-meta eyebrow">{item.category}{item.source ? ` · ${item.source}` : ''}</span>
-      <span className="media-title">{item.title}</span>
-      {item.linkLabel && <span className="archive-origin">{item.linkLabel}</span>}
     </>
   );
 
@@ -172,7 +176,9 @@ export default function Archive() {
             {backstageGallery.map((item) => <MediaCard key={item.src} item={item} onOpen={setSelected} />)}
           </ul>
         </section>
-        <section className="archive-catalog" id="catalogo-acervo" aria-labelledby="archive-catalog-title">
+      </div>
+      <section className="archive-catalog" id="catalogo-acervo" aria-labelledby="archive-catalog-title">
+        <div className="shell">
           <h2 id="archive-catalog-title">Fotos, vídeos e matérias</h2>
           <div className="archive-controls">
             <label className="archive-search">
@@ -215,8 +221,8 @@ export default function Archive() {
               {filtered.length <= limit ? 'Todos os registros exibidos' : 'Mostrar mais registros'}
             </button>
           )}
-        </section>
-      </div>
+        </div>
+      </section>
       {selected && <MediaDialog {...selected} onClose={() => setSelected(null)} />}
     </section>
   );

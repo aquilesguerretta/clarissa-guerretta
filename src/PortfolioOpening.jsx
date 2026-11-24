@@ -13,6 +13,7 @@ function prefersMotion() {
 export default function PortfolioOpening() {
   const artwork = useRef(null);
   const motionFilm = useRef(null);
+  const motionProgress = useRef(null);
   const librasDialog = useRef(null);
   const librasTrigger = useRef(null);
   const [motionEnabled, setMotionEnabled] = useState(prefersMotion);
@@ -82,6 +83,12 @@ export default function PortfolioOpening() {
     setMotionStatus('A animação está indisponível no momento.');
   }
 
+  function updateMotionProgress({ currentTarget: film }) {
+    if (Number.isFinite(film.duration) && film.duration > 0) {
+      motionProgress.current.value = film.currentTime / film.duration;
+    }
+  }
+
   function showLibras() {
     librasDialog.current.showModal();
     setDialogOpen(true);
@@ -101,7 +108,7 @@ export default function PortfolioOpening() {
       <div className="shell opening-grid">
         <div className="opening-copy">
           <p className="opening-kicker">Libras e cultura Surda</p>
-          <h1 id="opening-name"><span>Clarissa</span>{' '}<span>Guerretta</span></h1>
+          <h1 id="opening-name"><span>Clarissa</span>{' '}<em>Guerretta</em></h1>
           <p className="opening-description">Sou professora de Libras na UFRJ, pesquisadora e apresentadora.</p>
           <div className="opening-links">
             <button ref={librasTrigger} type="button" className="opening-libras" aria-haspopup="dialog" aria-controls="opening-libras-player" onClick={showLibras}>
@@ -121,10 +128,11 @@ export default function PortfolioOpening() {
               alt="" width="1152" height="648" fetchPriority="high" onError={() => setPosterFailed(true)} />
             <video ref={motionFilm} className="opening-art-film" id="opening-motion-film" src={highlights + 'abertura-motion.mp4'}
               muted playsInline loop preload="none" data-ready={filmReady}
-              onLoadedData={() => setFilmReady(true)} onError={reportMotionError} />
+              onLoadedData={() => setFilmReady(true)} onTimeUpdate={updateMotionProgress} onError={reportMotionError} />
           </div>
           <figcaption className="opening-art-caption">
-            <span>Imagens do meu acervo</span>
+            <progress ref={motionProgress} className="opening-progress" max="1" value="0" aria-hidden="true" />
+            <span className="opening-film-credit">Imagens do meu acervo <span>· 30 s</span></span>
             <button className="opening-motion" type="button" aria-controls="opening-motion-film" onClick={toggleMotion}>
               <span className={motionEnabled ? 'opening-pause-icon' : 'opening-play-icon'} aria-hidden="true" />
               {motionEnabled ? 'Pausar movimento' : 'Ativar movimento'}

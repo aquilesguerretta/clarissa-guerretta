@@ -1,7 +1,7 @@
 .academic {
   --academic-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
   color: var(--pine-deep);
-  background: var(--paper);
+  background: var(--paper) var(--grain) 0 0 / 18rem 18rem;
 }
 
 .academic > .shell {
@@ -91,7 +91,7 @@
   padding: clamp(1.2rem, 3vw, 2.8rem);
   border-top: 1px solid var(--night-rule);
   color: var(--inverse-text);
-  background: var(--pine-deep);
+  background: var(--pine-deep) var(--grain) 0 0 / 18rem 18rem;
 }
 
 .academic-research::before {
@@ -109,7 +109,7 @@
 .academic-research > .eyebrow {
   grid-column: 1 / -1;
   margin-bottom: .4rem;
-  color: var(--ice);
+  color: var(--highlight);
   font-family: var(--academic-mono);
   font-size: .71rem;
   letter-spacing: .095em;
@@ -263,8 +263,13 @@
 .academic-project-gallery {
   display: grid;
   grid-template-columns: minmax(0, 1.68fr) minmax(0, 1fr);
-  gap: 1rem;
+  align-items: start;
+  gap: clamp(.85rem, 2vw, 1.8rem);
   max-width: 49rem;
+}
+
+.academic-project-gallery figure + figure {
+  margin-top: clamp(.6rem, 2vw, 1.75rem);
 }
 
 .academic-project figcaption {

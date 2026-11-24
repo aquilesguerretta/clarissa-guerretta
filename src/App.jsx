@@ -61,9 +61,9 @@ function Home() {
 
       <section className="home-trajectory" id="trajetoria" aria-labelledby="home-trajectory-title">
         <div className="shell section home-spread" data-reveal>
-          <div>
+          <div className="home-spread-copy">
             <p className="eyebrow">Minha trajetória</p>
-            <h2 id="home-trajectory-title">Da sala de aula<br />às telas.</h2>
+            <h2 id="home-trajectory-title">Da sala de aula<br /><em>às telas.</em></h2>
             <p>Me formei em Letras-Libras na UFSC e pesquiso Literatura Comparada na UFRJ. Trabalho em Libras na universidade e na televisão.</p>
             <div className="trajectory-actions">
               <a className="text-link" href={sitePath('trajetoria/#formacao')}>Minha formação acadêmica <Arrow direction="right" /></a>
@@ -81,10 +81,24 @@ function Home() {
       <section className="archive home-archive" id="acervo" aria-labelledby="home-archive-title">
         <div className="shell section" data-reveal>
           <div className="section-heading paired-heading">
-            <div><p className="eyebrow">Meu acervo</p><h2 id="home-archive-title">Libras<br />em cena.</h2></div>
+            <div><p className="eyebrow">Meu acervo</p><h2 id="home-archive-title">Libras em cena.</h2></div>
             <a className="text-link" href={sitePath('acervo/')}>Explore meu acervo <Arrow direction="right" /></a>
           </div>
           <FeaturedTalk />
+          <section className="home-backstage" aria-labelledby="home-backstage-title" data-reveal>
+            <div className="home-backstage-copy">
+              <h3 id="home-backstage-title">Bastidores</h3>
+              <a className="text-link" href={sitePath('acervo/#bastidores')}>Veja minhas fotos e reportagens <Arrow direction="right" /></a>
+            </div>
+            <figure>
+              <img src={sitePath('acervo/imagens/66.webp')} width="1032" height="774" alt="A equipe de reportagem posa ao lado de uma câmera sobre um tripé." loading="lazy" />
+              <figcaption>Gravação com a equipe da TV INES</figcaption>
+            </figure>
+            <figure>
+              <img src={sitePath('acervo/imagens/71.webp')} width="1080" height="1075" alt="Apareço no monitor da câmera durante uma gravação." loading="lazy" />
+              <figcaption>Retorno de câmera</figcaption>
+            </figure>
+          </section>
         </div>
       </section>
 
@@ -100,7 +114,7 @@ function Biography() {
         <div className="shell section trajectory-grid">
           <div className="page-enter">
             <p className="eyebrow">Minha trajetória</p>
-            <h1 className="page-title" id="trajectory-title">Da sala de aula<br />às telas.</h1>
+            <h1 className="page-title" id="trajectory-title">Da sala de aula<br /><em>às telas.</em></h1>
             <p>Sou Clarissa Luna Borges Fonseca Guerretta, professora do Departamento de Letras-Libras da UFRJ e mestre em Literatura Comparada. Pesquiso o protagonismo das mulheres Surdas, os feminismos e as questões de raça e identidade na comunidade Surda.</p>
             <p>Na TV INES, trabalhei com apresentação e jornalismo em Libras nos programas <em>Primeira Mão</em> e <em>Panorama Visual</em>.</p>
             <a className="text-link" href={profile}>Meu perfil no SOPA-Lab <Arrow /></a>
@@ -159,7 +173,7 @@ function Contact() {
       <div className="shell section contact-spread">
         <div className="page-enter">
           <p className="eyebrow">Fale comigo</p>
-          <h1 className="page-title" id="contact-title">Vamos<br />conversar?</h1>
+          <h1 className="page-title" id="contact-title">Vamos<br /><em>conversar?</em></h1>
           <p>Me escreva para convites, entrevistas e conversas sobre ensino, pesquisa ou cultura Surda.</p>
           <div className="contact-links">
             <a className="contact-email" href={`mailto:${email}`}>{email} <Arrow /></a>
@@ -190,7 +204,7 @@ function Footer({ page }) {
     <footer className="site-footer" id={page === 'inicio' ? 'contato' : undefined}>
       <div className="shell">
         <div className="footer-main">
-          <p className="footer-name">Clarissa Guerretta</p>
+          <p className="footer-name">Clarissa <em>Guerretta</em></p>
           <div className="footer-contact">
             <p className="eyebrow">Fale comigo</p>
             <a className="text-link" href={`mailto:${email}`}>{email} <Arrow /></a>
