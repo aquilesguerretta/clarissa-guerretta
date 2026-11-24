@@ -162,7 +162,7 @@
   font: 400 clamp(1.42rem, 2.2vw, 2.15rem)/1.03 var(--serif);
 }
 
-.archive-backstage-link:hover .archive-backstage-link-title {
+.archive-backstage-link:is(:hover, :focus-visible) .archive-backstage-link-title {
   text-decoration: underline;
   text-underline-offset: .14em;
 }
@@ -376,9 +376,55 @@
   transition: color .2s ease, background-color .2s ease;
 }
 
-.archive-catalog .archive-card:hover .media-action {
+.archive-catalog .archive-card:is(:hover, :focus-visible) .media-action {
   color: var(--ink);
   background: var(--highlight);
+}
+
+.archive-page .archive-card {
+  scroll-margin-top: 5.5rem;
+}
+
+.archive-page .archive-card:focus-visible .media-title {
+  text-decoration: underline;
+  text-underline-offset: .15em;
+}
+
+.archive-page .viewer-bar button:hover {
+  color: var(--night);
+  background: var(--ice);
+}
+
+.archive-page .viewer-bar button:focus-visible {
+  outline-color: var(--ice);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .archive-page :is(.filters button, .archive-reset, .load-more, .viewer-bar button, .archive-card .media-action) {
+    transition: scale .14s var(--ease-out), color .16s ease, background-color .16s ease, border-color .16s ease;
+  }
+
+  .archive-page :is(.filters button, .archive-reset, .load-more, .viewer-bar button):active:not(:disabled),
+  .archive-page .archive-card:active .media-action {
+    scale: .97;
+  }
+
+  .archive-page .archive-grid > li { animation-duration: .24s; }
+  .archive-page .archive-grid > li:nth-child(3n + 2) { animation-delay: 30ms; }
+  .archive-page .archive-grid > li:nth-child(3n) { animation-delay: 60ms; }
+
+  .archive-page .viewer[open] { animation: archive-viewer-in .2s var(--ease-out) both; }
+  .archive-page .viewer[open]::backdrop { animation: archive-backdrop-in .16s ease-out both; }
+}
+
+@keyframes archive-viewer-in {
+  from { opacity: 0; scale: .97; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes archive-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .archive-catalog .archive-empty {

@@ -19,6 +19,7 @@ export default function PortfolioOpening() {
   const [inView, setInView] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
   const [filmReady, setFilmReady] = useState(false);
+  const [motionStatus, setMotionStatus] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const artworkMoving = motionEnabled && inView && !dialogOpen;
 
@@ -50,9 +51,36 @@ export default function PortfolioOpening() {
 
   useEffect(() => {
     const film = motionFilm.current;
-    if (artworkMoving) film.play().catch(() => {});
-    else film.pause();
+    if (!artworkMoving) {
+      film.pause();
+      return;
+    }
+    if (!film.paused) return;
+
+    let active = true;
+    film.play().catch((error) => {
+      if (active && error.name !== 'AbortError') setMotionEnabled(false);
+    });
+    return () => { active = false; };
   }, [artworkMoving]);
+
+  function toggleMotion() {
+    setMotionStatus('');
+    setMotionEnabled(!motionEnabled);
+    if (!motionEnabled && inView) {
+      motionFilm.current.play().catch((error) => {
+        if (error.name === 'AbortError') return;
+        setMotionEnabled(false);
+        setMotionStatus('A animação está indisponível no momento.');
+      });
+    }
+  }
+
+  function reportMotionError() {
+    setFilmReady(false);
+    setMotionEnabled(false);
+    setMotionStatus('A animação está indisponível no momento.');
+  }
 
   function showLibras() {
     librasDialog.current.showModal();
@@ -76,7 +104,7 @@ export default function PortfolioOpening() {
           <h1 id="opening-name"><span>Clarissa</span>{' '}<span>Guerretta</span></h1>
           <p className="opening-description">Sou professora de Libras na UFRJ, pesquisadora e apresentadora.</p>
           <div className="opening-links">
-            <button ref={librasTrigger} type="button" className="opening-libras" aria-haspopup="dialog" onClick={showLibras}>
+            <button ref={librasTrigger} type="button" className="opening-libras" aria-haspopup="dialog" aria-controls="opening-libras-player" onClick={showLibras}>
               <span className="opening-play-icon" aria-hidden="true" /> Me veja em Libras
             </button>
             <div className="opening-page-links">
@@ -91,21 +119,22 @@ export default function PortfolioOpening() {
             <img className="opening-art-poster"
               src={posterFailed ? photographs + 'clarissa-tv-ines.webp' : highlights + 'abertura-motion.webp'}
               alt="" width="1152" height="648" fetchPriority="high" onError={() => setPosterFailed(true)} />
-            <video ref={motionFilm} className="opening-art-film" src={highlights + 'abertura-motion.mp4'}
+            <video ref={motionFilm} className="opening-art-film" id="opening-motion-film" src={highlights + 'abertura-motion.mp4'}
               muted playsInline loop preload="none" data-ready={filmReady}
-              onLoadedData={() => setFilmReady(true)} onError={() => setFilmReady(false)} />
+              onLoadedData={() => setFilmReady(true)} onError={reportMotionError} />
           </div>
           <figcaption className="opening-art-caption">
             <span>Imagens do meu acervo</span>
-            <button className="opening-motion" type="button" onClick={() => setMotionEnabled((enabled) => !enabled)}>
+            <button className="opening-motion" type="button" aria-controls="opening-motion-film" onClick={toggleMotion}>
               <span className={motionEnabled ? 'opening-pause-icon' : 'opening-play-icon'} aria-hidden="true" />
               {motionEnabled ? 'Pausar movimento' : 'Ativar movimento'}
             </button>
+            <span className="opening-motion-status" role="status">{motionStatus}</span>
           </figcaption>
         </figure>
       </div>
 
-      <dialog ref={librasDialog} className="opening-libras-dialog" aria-labelledby="opening-libras-title"
+      <dialog ref={librasDialog} className="opening-libras-dialog" id="opening-libras-player" aria-labelledby="opening-libras-title"
         onClose={restoreOpening}>
         <div className="opening-dialog-header">
           <div>

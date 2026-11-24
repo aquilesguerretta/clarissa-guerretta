@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import AcademicTrajectory, { academicProfiles } from './AcademicTrajectory.jsx';
 import Archive, { FeaturedTalk } from './Archive.jsx';
+import ContactNotes from './ContactNotes.jsx';
 import PortfolioOpening from './PortfolioOpening.jsx';
 import Publications, { PublicationPreview } from './Publications.jsx';
 import { email, profile, ted, visuals, work } from './content.js';
@@ -28,15 +29,20 @@ function Header({ page }) {
   const toggle = useRef(null);
 
   return (
-    <header className="header" onKeyDown={(event) => {
-      if (event.key === 'Escape' && open) {
-        setOpen(false);
-        toggle.current.focus();
-      }
-    }}>
+    <header className="header"
+      onBlur={(event) => {
+        if (open && !event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && open) {
+          event.preventDefault();
+          setOpen(false);
+          toggle.current.focus();
+        }
+      }}>
       <div className="shell header-inner">
         <a className="signature" href={sitePath()} aria-label="Clarissa Guerretta — início">Clarissa Guerretta</a>
-        <button ref={toggle} className="menu-toggle" type="button" aria-controls="navigation" aria-expanded={open} onClick={() => setOpen(!open)}>
+        <button ref={toggle} className="menu-toggle" type="button" aria-controls="navigation" aria-expanded={open} onClick={() => setOpen((expanded) => !expanded)}>
           {open ? 'Fechar' : 'Menu'} <span aria-hidden="true">{open ? '×' : '+'}</span>
         </button>
         <nav className="nav" id="navigation" aria-label="Navegação principal" data-open={open}>
@@ -159,6 +165,7 @@ function Contact() {
             <button className="text-link" type="button" onClick={copyEmail}>Copiar e-mail</button>
             <p className="copy-status" role="status">{status}</p>
           </div>
+          <ContactNotes />
         </div>
         <div className="contact-dossier page-enter">
           <figure className="contact-figure">

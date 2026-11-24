@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { media, ted } from './content.js';
 import './archive.css';
 
@@ -47,7 +47,7 @@ function MediaDialog({ item, trigger, onClose }) {
 
     return () => {
       if (dialog.open) dialog.close();
-      trigger?.focus();
+      trigger?.focus({ preventScroll: true });
     };
   }, [trigger]);
 
@@ -66,6 +66,8 @@ function MediaDialog({ item, trigger, onClose }) {
 }
 
 function MediaCard({ item, onOpen }) {
+  const descriptionId = useId();
+  const describedBy = item.alt ? descriptionId : undefined;
   const video = item.kind === 'video';
   const preview = item.poster ?? item.src;
   const content = (
@@ -80,10 +82,15 @@ function MediaCard({ item, onOpen }) {
     </>
   );
 
-  return <li>{item.href
-    ? <a className="archive-card" href={item.href}>{content}</a>
-    : <button className="archive-card" type="button" onClick={(event) => onOpen({ item, trigger: event.currentTarget })} aria-haspopup="dialog">{content}</button>
-  }</li>;
+  return (
+    <li>
+      {item.href
+        ? <a className="archive-card" href={item.href} aria-describedby={describedBy}>{content}</a>
+        : <button className="archive-card" type="button" onClick={(event) => onOpen({ item, trigger: event.currentTarget })}
+            aria-haspopup="dialog" aria-describedby={describedBy}>{content}</button>}
+      {item.alt && <span id={descriptionId} hidden>{item.alt}</span>}
+    </li>
+  );
 }
 
 export default function Archive() {
@@ -93,6 +100,8 @@ export default function Archive() {
   const [limit, setLimit] = useState(pageSize);
   const [selected, setSelected] = useState(null);
   const searchInput = useRef(null);
+  const results = useRef(null);
+  const nextResultIndex = useRef(null);
   const terms = normalizeSearch(query).trim().split(/\s+/).filter(Boolean);
   const filtered = indexedMedia.filter(({ item, searchable }) => (
     (filter === 'all' || item.kind === filter)
@@ -100,6 +109,22 @@ export default function Archive() {
     && terms.every((term) => searchable.includes(term))
   ));
   const filterIsActive = filter !== 'all' || topic !== 'all' || query.length > 0;
+  const visibleCount = Math.min(limit, filtered.length);
+  const resultStatus = visibleCount < filtered.length
+    ? `${visibleCount} de ${filtered.length} registros`
+    : `${filtered.length} ${filtered.length === 1 ? 'registro' : 'registros'}`;
+
+  useLayoutEffect(() => {
+    if (nextResultIndex.current === null) return;
+    const firstNewResult = results.current?.children[nextResultIndex.current];
+    nextResultIndex.current = null;
+    firstNewResult?.querySelector('.archive-card')?.focus();
+  }, [limit]);
+
+  function showMore() {
+    nextResultIndex.current = visibleCount;
+    setLimit(limit + pageSize);
+  }
 
   function resetFilters() {
     setFilter('all');
@@ -171,7 +196,7 @@ export default function Archive() {
               ))}
             </div>
             <div className="archive-summary">
-              <span className="archive-count" role="status">{filtered.length} {filtered.length === 1 ? 'registro' : 'registros'}</span>
+              <span className="archive-count" role="status">{resultStatus}</span>
               {filterIsActive && <button className="archive-reset" type="button" onClick={resetFilters}>Limpar filtros</button>}
             </div>
           </div>
@@ -181,12 +206,12 @@ export default function Archive() {
               <p>Experimente outro termo ou limpe os filtros.</p>
             </div>
           ) : (
-            <ul className="archive-grid">
-              {filtered.slice(0, limit).map(({ item }) => <MediaCard key={item.src ?? item.href} item={item} onOpen={setSelected} />)}
+            <ul className="archive-grid" id="archive-results" ref={results}>
+              {filtered.slice(0, visibleCount).map(({ item }) => <MediaCard key={item.src ?? item.href} item={item} onOpen={setSelected} />)}
             </ul>
           )}
           {filtered.length > pageSize && (
-            <button className="load-more" type="button" disabled={filtered.length <= limit} onClick={() => setLimit(limit + pageSize)}>
+            <button className="load-more" type="button" aria-controls="archive-results" disabled={filtered.length <= limit} onClick={showMore}>
               {filtered.length <= limit ? 'Todos os registros exibidos' : 'Mostrar mais registros'}
             </button>
           )}

@@ -77,7 +77,6 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
   const [inView, setInView] = useState(false);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
   const [limits, setLimits] = useState({ atStart: true, atEnd: true, overflow: false });
 
   useEffect(() => {
@@ -106,18 +105,34 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
   }, []);
 
   useEffect(() => {
-    if (paused || reduced || hovered || focused || !inView || !limits.overflow) return undefined;
+    if (paused || reduced || hovered || !inView || !limits.overflow) return undefined;
 
     const timer = window.setInterval(() => {
       if (!document.hidden) moveShelf(listRef.current, 1, { repeat: true });
     }, 4600);
 
     return () => window.clearInterval(timer);
-  }, [paused, reduced, hovered, focused, inView, limits.overflow]);
+  }, [paused, reduced, hovered, inView, limits.overflow]);
 
   function navigate(direction) {
     setPaused(true);
     moveShelf(listRef.current, direction, { reduced });
+  }
+
+  function handleRailKeyDown(event) {
+    if (event.target !== event.currentTarget || !limits.overflow) return;
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      navigate(event.key === 'ArrowLeft' ? -1 : 1);
+    } else if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      setPaused(true);
+      const list = event.currentTarget;
+      list.scrollTo({
+        left: event.key === 'Home' ? 0 : list.scrollWidth - list.clientWidth,
+        behavior: reduced ? 'auto' : 'smooth',
+      });
+    }
   }
 
   return (
@@ -127,8 +142,7 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
       aria-labelledby={`title-${id}`}
       onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovered(true); }}
       onPointerLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}
+      onFocus={(event) => { if (event.target.matches(':focus-visible')) setPaused(true); }}
     >
       <div className="library-shelf-head">
         <div className="library-shelf-label">
@@ -138,7 +152,7 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
         {limits.overflow && (
           <div className="library-shelf-controls" role="group" aria-label={`Controles de ${title.toLowerCase()}`}>
             {!reduced && (
-              <button className="library-auto-button" type="button" aria-controls={`shelf-${id}`} onClick={() => setPaused(!paused)}>
+              <button className="library-auto-button" type="button" aria-controls={`shelf-${id}`} onClick={() => setPaused((stopped) => !stopped)}>
                 <span aria-hidden="true">{paused ? '▶' : 'Ⅱ'}</span>
                 {paused ? 'Retomar' : 'Pausar'}
                 <span className="library-sr-only"> rolagem automática de {title.toLowerCase()}</span>
@@ -160,12 +174,7 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
         role="list"
         aria-labelledby={`title-${id}`}
         tabIndex={limits.overflow ? 0 : undefined}
-        onKeyDown={(event) => {
-          if (event.target === event.currentTarget && limits.overflow && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-            event.preventDefault();
-            navigate(event.key === 'ArrowLeft' ? -1 : 1);
-          }
-        }}
+        onKeyDown={handleRailKeyDown}
         onPointerDown={() => setPaused(true)}
         onWheel={(event) => { if (Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey) setPaused(true); }}
       >

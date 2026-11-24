@@ -246,7 +246,7 @@
   background: transparent;
   border: 0;
   cursor: pointer;
-  transition: background-color .18s ease, color .18s ease;
+  transition: background-color .18s var(--ease-out), color .18s var(--ease-out);
 }
 
 .library-shelf-controls button + button {
@@ -258,9 +258,14 @@
   outline-offset: -4px;
 }
 
-.library-shelf-controls button:hover:not([aria-disabled='true']) {
+.library-shelf-controls button:is(:hover, :focus-visible):not([aria-disabled='true']) {
   background: var(--pine);
   color: var(--inverse-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .library-shelf-controls button > span[aria-hidden='true'] { transition: transform .14s var(--ease-out); }
+  .library-shelf-controls button:not([aria-disabled='true']):active > span[aria-hidden='true'] { transform: scale(.86); }
 }
 
 .library-shelf-controls button[aria-disabled='true'] {
