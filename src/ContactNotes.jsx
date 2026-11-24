@@ -11,12 +11,11 @@ const fontLicenses = [
 export default function ContactNotes() {
   return (
     <details className="contact-notes">
-      <summary>Privacidade e licenças das fontes</summary>
-      <p>
-        O contato é feito pelo seu aplicativo de e-mail. Os links externos levam a serviços com suas
-        próprias práticas de privacidade. A hospedagem pode registrar dados técnicos de acesso.
-      </p>
-      <p>Para pedir a correção ou a retirada de um conteúdo, escreva para mim pelo e-mail acima.</p>
+      <summary>Privacidade, cookies e licenças das fontes</summary>
+      <ul aria-label="Políticas do portfólio">
+        <li><a href={sitePath('privacidade/')}>Política de privacidade</a></li>
+        <li><a href={sitePath('privacidade/#cookies')}>Política de cookies</a></li>
+      </ul>
       <p>Uso estas fontes sob a SIL Open Font License 1.1.</p>
       <ul aria-label="Licenças das fontes">
         {fontLicenses.map(([name, filename]) => (

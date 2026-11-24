@@ -3,6 +3,7 @@ import AcademicTrajectory, { academicProfiles } from './AcademicTrajectory.jsx';
 import Archive, { FeaturedTalk } from './Archive.jsx';
 import ContactNotes from './ContactNotes.jsx';
 import PortfolioOpening from './PortfolioOpening.jsx';
+import PrivacyPolicy from './PrivacyPolicy.jsx';
 import Publications, { PublicationPreview } from './Publications.jsx';
 import { email, profile, ted, visuals, work } from './content.js';
 import { sitePath } from './sitePath.js';
@@ -100,7 +101,7 @@ function Biography() {
           <div className="page-enter">
             <p className="eyebrow">Minha trajetória</p>
             <h1 className="page-title" id="trajectory-title">Da sala de aula<br />às telas.</h1>
-            <p>Sou professora do Departamento de Letras-Libras da UFRJ e mestre em Literatura Comparada. Pesquiso o protagonismo das mulheres Surdas, os feminismos e as questões de raça e identidade na comunidade Surda.</p>
+            <p>Sou Clarissa Luna Borges Fonseca Guerretta, professora do Departamento de Letras-Libras da UFRJ e mestre em Literatura Comparada. Pesquiso o protagonismo das mulheres Surdas, os feminismos e as questões de raça e identidade na comunidade Surda.</p>
             <p>Na TV INES, trabalhei com apresentação e jornalismo em Libras nos programas <em>Primeira Mão</em> e <em>Panorama Visual</em>.</p>
             <a className="text-link" href={profile}>Meu perfil no SOPA-Lab <Arrow /></a>
           </div>
@@ -203,13 +204,20 @@ function Footer({ page }) {
             ))}
           </nav>
         </div>
-        <div className="footer-bottom"><span>Rio de Janeiro, Brasil</span><a href="#inicio">Voltar ao topo <Arrow direction="up" /></a></div>
+        <div className="footer-bottom">
+          <span>Rio de Janeiro, Brasil</span>
+          <nav className="footer-policies" aria-label="Privacidade e cookies">
+            <a href={sitePath('privacidade/')} aria-current={page === 'privacidade' ? 'page' : undefined}>Privacidade</a>
+            <a href={sitePath('privacidade/#cookies')}>Política de cookies</a>
+          </nav>
+          <a href="#inicio">Voltar ao topo <Arrow direction="up" /></a>
+        </div>
       </div>
     </footer>
   );
 }
 
-const pages = { inicio: Home, trajetoria: Biography, acervo: Archive, publicacoes: Publications, contato: Contact };
+const pages = { inicio: Home, trajetoria: Biography, acervo: Archive, publicacoes: Publications, contato: Contact, privacidade: PrivacyPolicy };
 
 export default function App() {
   const page = document.body.dataset.page ?? 'inicio';
