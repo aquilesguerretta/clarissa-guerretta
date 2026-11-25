@@ -361,9 +361,44 @@
   }
 }
 
-@media (max-width: 35rem) {
+@media (max-width: 37.5rem) {
+  .academic-heading h2 {
+    font-size: clamp(3.3rem, 11.7vw, 4.6rem);
+  }
+
+  .academic h4 {
+    line-height: 1.08;
+  }
+
+  .academic-education li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .45rem;
+    padding-block: 1rem 1.15rem;
+  }
+
+  .academic-education .academic-period,
+  .academic-appointments .academic-period {
+    font: 600 .9rem/1.28 var(--academic-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .035em;
+  }
+
+  .academic-education p,
+  .academic-research > p:not(.eyebrow),
+  .academic-appointments li p:not(.academic-period),
+  .academic-international p,
+  .academic-project-copy p {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
   .academic-appointments ul {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .academic-appointments li {
+    grid-template-rows: auto;
+    padding-inline-end: 0;
   }
 
   .academic-appointments li:nth-child(2n) {
@@ -371,8 +406,68 @@
     border-left: 0;
   }
 
+  .academic-research {
+    grid-template-columns: minmax(0, 1fr) clamp(3.75rem, 13vw, 5.25rem);
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .academic-research::before {
+    grid-row: 1;
+    margin-block: 0;
+  }
+
+  .academic-research > .eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    margin: 0;
+    line-height: 1.4;
+  }
+
   .academic-research h3 {
-    font-size: clamp(2.35rem, 9.2vw, 3.55rem);
+    grid-column: 1 / -1;
+    max-width: none;
+    font-size: clamp(2.5rem, 8.5vw, 3.55rem);
+    line-height: .95;
+  }
+
+  .academic-research-links,
+  .academic-project-links,
+  .academic-profiles ul {
+    display: grid;
+    gap: 0;
+  }
+
+  .academic .text-link {
+    justify-content: space-between;
+    width: 100%;
+    min-height: 3rem;
+    padding-block: .5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .academic .text-link .arrow {
+    flex: none;
+  }
+
+  .academic-research .text-link {
+    border-color: var(--night-rule);
+  }
+
+  .academic-research-links .text-link:last-child,
+  .academic-international .text-link {
+    border-bottom: 0;
+  }
+
+  .academic-project-film video {
+    height: auto;
+    object-fit: contain;
+  }
+
+  .academic-profiles {
+    gap: .85rem;
+    padding-block: 1.15rem;
   }
 }
 

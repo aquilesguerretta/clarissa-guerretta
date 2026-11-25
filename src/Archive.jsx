@@ -172,6 +172,7 @@ export default function Archive() {
               ))}
             </ul>
           </div>
+          <p className="archive-backstage-hint">Deslize para ver as {backstageGallery.length} fotos</p>
           <ul className="archive-backstage-gallery" aria-label="Galeria de bastidores">
             {backstageGallery.map((item) => <MediaCard key={item.src} item={item} onOpen={setSelected} />)}
           </ul>

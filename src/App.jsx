@@ -27,22 +27,38 @@ function Arrow({ direction = 'external' }) {
 
 function Header({ page }) {
   const [open, setOpen] = useState(false);
+  const header = useRef(null);
   const toggle = useRef(null);
 
+  useEffect(() => {
+    if (!open) return;
+
+    function closeOnOutsidePress(event) {
+      if (!header.current.contains(event.target)) setOpen(false);
+    }
+
+    function closeOnEscape(event) {
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+      event.preventDefault();
+      setOpen(false);
+      toggle.current.focus();
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsidePress);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePress);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [open]);
+
   return (
-    <header className="header"
+    <header ref={header} className="header"
       onBlur={(event) => {
-        if (open && !event.currentTarget.contains(event.relatedTarget)) setOpen(false);
-      }}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && open) {
-          event.preventDefault();
-          setOpen(false);
-          toggle.current.focus();
-        }
+        if (open && event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setOpen(false);
       }}>
       <div className="shell header-inner">
-        <a className="signature" href={sitePath()} aria-label="Clarissa Guerretta — início">Clarissa Guerretta</a>
+        <a className="signature" href={sitePath()} aria-label="Clarissa Guerretta — início" aria-current={page === 'inicio' ? 'page' : undefined}>Clarissa Guerretta</a>
         <button ref={toggle} className="menu-toggle" type="button" aria-controls="navigation" aria-expanded={open} onClick={() => setOpen((expanded) => !expanded)}>
           {open ? 'Fechar' : 'Menu'} <span aria-hidden="true">{open ? '×' : '+'}</span>
         </button>

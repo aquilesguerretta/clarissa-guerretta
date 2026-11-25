@@ -5,9 +5,16 @@ import './opening.css';
 const highlights = sitePath('acervo/destaque/');
 const photographs = sitePath('acervo/imagens/');
 const motionQuery = '(prefers-reduced-motion: reduce)';
+const mobileQuery = '(max-width: 37.5rem), (max-width: 57rem) and (max-height: 32rem) and (orientation: landscape) and (pointer: coarse)';
+const motionSource = highlights + 'abertura-motion.mp4';
 
-function prefersMotion() {
-  return !window.matchMedia(motionQuery).matches && !navigator.connection?.saveData;
+function canAutoplayMotion() {
+  return !window.matchMedia(mobileQuery).matches && !window.matchMedia(motionQuery).matches && !navigator.connection?.saveData;
+}
+
+function playMotion(film) {
+  if (!film.getAttribute('src')) film.src = motionSource;
+  return film.play();
 }
 
 export default function PortfolioOpening() {
@@ -16,7 +23,8 @@ export default function PortfolioOpening() {
   const motionProgress = useRef(null);
   const librasDialog = useRef(null);
   const librasTrigger = useRef(null);
-  const [motionEnabled, setMotionEnabled] = useState(prefersMotion);
+  const [autoplayMotion] = useState(canAutoplayMotion);
+  const [motionEnabled, setMotionEnabled] = useState(autoplayMotion);
   const [inView, setInView] = useState(false);
   const [posterFailed, setPosterFailed] = useState(false);
   const [filmReady, setFilmReady] = useState(false);
@@ -59,7 +67,7 @@ export default function PortfolioOpening() {
     if (!film.paused) return;
 
     let active = true;
-    film.play().catch((error) => {
+    playMotion(film).catch((error) => {
       if (active && error.name !== 'AbortError') setMotionEnabled(false);
     });
     return () => { active = false; };
@@ -69,7 +77,7 @@ export default function PortfolioOpening() {
     setMotionStatus('');
     setMotionEnabled(!motionEnabled);
     if (!motionEnabled && inView) {
-      motionFilm.current.play().catch((error) => {
+      playMotion(motionFilm.current).catch((error) => {
         if (error.name === 'AbortError') return;
         setMotionEnabled(false);
         setMotionStatus('A animação está indisponível no momento.');
@@ -126,7 +134,7 @@ export default function PortfolioOpening() {
             <img className="opening-art-poster"
               src={posterFailed ? photographs + 'clarissa-tv-ines.webp' : highlights + 'abertura-motion.webp'}
               alt="" width="1152" height="648" fetchPriority="high" onError={() => setPosterFailed(true)} />
-            <video ref={motionFilm} className="opening-art-film" id="opening-motion-film" src={highlights + 'abertura-motion.mp4'}
+            <video ref={motionFilm} className="opening-art-film" id="opening-motion-film" src={autoplayMotion ? motionSource : undefined}
               muted playsInline loop preload="none" data-ready={filmReady}
               onLoadedData={() => setFilmReady(true)} onTimeUpdate={updateMotionProgress} onError={reportMotionError} />
           </div>
@@ -135,7 +143,7 @@ export default function PortfolioOpening() {
             <span className="opening-film-credit">Imagens do meu acervo <span>· 30 s</span></span>
             <button className="opening-motion" type="button" aria-controls="opening-motion-film" onClick={toggleMotion}>
               <span className={motionEnabled ? 'opening-pause-icon' : 'opening-play-icon'} aria-hidden="true" />
-              {motionEnabled ? 'Pausar movimento' : 'Ativar movimento'}
+              {motionEnabled ? 'Pausar abertura' : 'Reproduzir abertura'}
             </button>
             <span className="opening-motion-status" role="status">{motionStatus}</span>
           </figcaption>

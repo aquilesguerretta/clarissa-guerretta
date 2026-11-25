@@ -280,6 +280,94 @@ body:has(.viewer[open]) { overflow: hidden; }
 }
 @keyframes menu-in { from { opacity: .66; transform: translateY(-.24rem); } to { opacity: 1; transform: none; } }
 
+@media (max-width: 37.5rem) {
+  :root { --gutter: clamp(1rem, 5.15vw, 1.85rem); --section-space: clamp(2.55rem, 8.5vw, 3.5rem); }
+
+  .header-inner { min-height: 3.6rem; flex-wrap: nowrap; gap: .65rem; }
+  .signature { min-height: 3rem; font-size: clamp(1.55rem, 6vw, 1.95rem); white-space: nowrap; }
+  .menu-toggle {
+    justify-content: space-between;
+    min-width: 5.45rem;
+    min-height: 3rem;
+    padding-inline: .55rem;
+    border: 1px solid var(--pine-rule);
+  }
+  .menu-toggle span { color: var(--highlight); }
+  .menu-toggle[aria-expanded='true'] { border-color: var(--highlight); }
+  .nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    max-height: calc(100dvh - 3.6rem);
+    overflow-y: auto;
+    padding: .25rem var(--gutter) .8rem;
+    border-block: 1px solid var(--pine-rule);
+    background: var(--pine-deep) var(--grain) 0 0 / 18rem 18rem;
+    box-shadow: 0 .7rem 1.3rem rgb(7 30 24 / .22);
+  }
+  .nav a, .nav a:last-child {
+    justify-content: space-between;
+    min-height: 3.25rem;
+    padding-inline: .1rem .4rem;
+    border-bottom: 1px solid var(--pine-rule);
+    font-size: 1rem;
+  }
+  .nav a[aria-current='page'], .nav a:last-child[aria-current='page'] { color: var(--highlight); }
+  .nav a::after, .nav a:last-child::after {
+    position: static;
+    width: .45rem;
+    height: .45rem;
+    border-block-start: 1px solid currentColor;
+    border-inline-end: 1px solid currentColor;
+    background: none;
+    content: '';
+  }
+  .nav a::after, .nav a:hover::after, .nav a[aria-current='page']::after { transform: rotate(45deg); }
+  .nav a:focus-visible { outline-offset: -3px; }
+
+  .home-spread, .trajectory-grid, .contact-spread { gap: 1.45rem; }
+  .home-spread h2, .trajectory-grid .page-title, .contact-spread h1 { font-size: clamp(3.35rem, 12.4vw, 5.25rem); }
+  .home-spread > div > p:not(.eyebrow), .trajectory-grid p:not(.eyebrow), .contact-spread p:not(.eyebrow) { margin-top: .9rem; }
+  .trajectory-actions { margin-top: 1rem; }
+  .trajectory-actions .text-link { min-height: 3rem; }
+  .trajectory-index .shell { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 .9rem; }
+  .trajectory-index a { justify-content: space-between; min-height: 3rem; border-bottom: 1px solid var(--night-rule); }
+  .trajectory-index a:nth-last-child(-n + 2) { border-bottom: 0; }
+  .milestones { grid-template-columns: minmax(0, 1fr); gap: .8rem; }
+  .milestones li { padding-top: .95rem; }
+  .milestones .text-link { min-height: 3rem; margin-top: .25rem; }
+
+  .home-archive .paired-heading { display: grid; gap: .25rem; padding-top: .8rem; margin-bottom: 1.05rem; }
+  .home-archive .paired-heading h2 { font-size: clamp(3.3rem, 12vw, 5.3rem); }
+  .home-archive .paired-heading .text-link { min-height: 3rem; }
+  .home-backstage { gap: .85rem; margin-top: 2rem; }
+  .home-backstage figure:last-child { margin-block-start: 1rem; }
+  .home-backstage figcaption { margin-top: .5rem; }
+
+  .contact-spread p.copy-status { margin: 0; }
+  .contact-spread p.copy-status:empty { min-height: 0; }
+  .contact-links { display: grid; justify-items: start; gap: .15rem; margin-top: 1.15rem; }
+  .contact-email {
+    min-height: 3rem;
+    gap: .5rem;
+    padding: .55rem .75rem;
+    color: var(--pine-deep);
+    background: var(--highlight);
+    font-size: clamp(.84rem, 3.7vw, 1.05rem);
+  }
+  .contact-email:focus-visible { outline-color: var(--inverse-text); }
+  .contact-links .text-link { min-height: 3rem; }
+  .contact-profiles ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 .85rem; }
+  .contact-profiles .text-link { justify-content: space-between; width: 100%; min-height: 3rem; border-bottom: 1px solid var(--pine-rule); }
+
+  .footer-main { gap: 1.25rem; padding-bottom: 1rem; }
+  .footer-name { font-size: clamp(2.7rem, 10.8vw, 4.5rem); line-height: .96; }
+  .footer-name em { display: inline; }
+  .footer-index { max-width: none; }
+  .footer-index a, .footer-bottom a { min-height: 3rem; }
+  .footer-bottom { gap: 0 .75rem; padding-block: .55rem .5rem; }
+  .footer-bottom > span { flex-basis: 100%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }

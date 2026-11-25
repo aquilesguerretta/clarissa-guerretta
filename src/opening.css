@@ -276,7 +276,37 @@ html:has(.opening-libras-dialog[open]) { overflow: hidden; scrollbar-gutter: sta
   .opening-copy h1 > * { display: inline; }
 }
 
-@media (max-width: 24rem) {
-  .opening-links a, .opening-libras, .opening-motion { font-size: .79rem; }
-  .opening-film-credit { font-size: .67rem; }
+@media (max-width: 37.5rem) {
+  .portfolio-opening {
+    padding-block: clamp(1.65rem, 6vw, 2.6rem) 1.05rem;
+    background-size: 37.5vw;
+  }
+
+  .opening-grid { gap: clamp(1.1rem, 4vw, 1.55rem); }
+  .opening-kicker { gap: .55rem; margin-bottom: .8rem; }
+  .opening-kicker::before { width: 1.35rem; }
+  .opening-copy h1 { font-size: clamp(3.7rem, 16.4vw, 5.8rem); line-height: .8; }
+  .opening-copy h1 > * { display: block; }
+  .opening-copy h1 em { padding-block: .1em .035em; }
+  .opening-description { max-width: 34ch; margin-top: .85rem; line-height: 1.46; }
+  .opening-links { margin-top: .95rem; }
+  .opening-libras { min-height: 3rem; padding-inline: .9rem; font-size: .92rem; }
+  .opening-page-links { display: none; }
+
+  .opening-art-panel { margin-inline: calc(-1 * var(--gutter)); }
+  .opening-art-caption { gap: 0 .45rem; margin-top: 0; }
+  .opening-motion { min-height: 3rem; padding-inline-start: .45rem; font-family: var(--sans); white-space: nowrap; }
+
+  .opening-libras-dialog { width: 100%; max-width: 100%; }
+  .opening-dialog-header { padding: .85rem var(--gutter); }
+  .opening-dialog-close { min-height: 3rem; flex-shrink: 0; }
+  .opening-dialog-header h2 { font-size: 2.2rem; }
+  .opening-dialog-header p { line-height: 1.4; }
+}
+
+@media (orientation: landscape) and (max-height: 30rem) and (pointer: coarse) {
+  .opening-libras-dialog { max-width: min(100% - 1.5rem, calc((100dvh - 5.5rem) * 804 / 430)); }
+  .opening-dialog-header { padding-block: .55rem; }
+  .opening-dialog-header h2 { font-size: 2rem; }
+  .opening-libras-video { max-height: calc(100dvh - 5.5rem); }
 }

@@ -8,6 +8,7 @@ const books = publications.filter(({ type }) => bookTypes.has(type));
 const otherWorks = publications.filter(({ type }) => !bookTypes.has(type));
 const featuredBook = books[0];
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
+const compactShelfQuery = '(max-width: 37.5rem)';
 const scrollTolerance = 3;
 
 function coverFor(href) {
@@ -15,18 +16,18 @@ function coverFor(href) {
   return sitePath(`capas/${filename}`);
 }
 
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(() => window.matchMedia(reducedMotionQuery).matches);
+function useMediaQuery(media) {
+  const [matches, setMatches] = useState(() => window.matchMedia(media).matches);
 
   useEffect(() => {
-    const query = window.matchMedia(reducedMotionQuery);
-    const update = () => setReduced(query.matches);
+    const query = window.matchMedia(media);
+    const update = () => setMatches(query.matches);
     query.addEventListener('change', update);
     update();
     return () => query.removeEventListener('change', update);
-  }, []);
+  }, [media]);
 
-  return reduced;
+  return matches;
 }
 
 function moveShelf(list, direction, { repeat = false, reduced = false } = {}) {
@@ -73,11 +74,13 @@ function PublicationCard({ item, kind }) {
 export function BookShelf({ items = books, title = 'Livros', kind = 'book', sectionId } = {}) {
   const id = useId();
   const listRef = useRef(null);
-  const reduced = useReducedMotion();
+  const reduced = useMediaQuery(reducedMotionQuery);
+  const compact = useMediaQuery(compactShelfQuery);
   const [inView, setInView] = useState(false);
-  const [paused, setPaused] = useState(false);
+  const [autoplay, setAutoplay] = useState(null);
   const [hovered, setHovered] = useState(false);
-  const [limits, setLimits] = useState({ atStart: true, atEnd: true, overflow: false });
+  const [limits, setLimits] = useState({ atStart: true, atEnd: true, overflow: false, position: 1 });
+  const playing = !reduced && (autoplay ?? !compact);
 
   useEffect(() => {
     const list = listRef.current;
@@ -86,8 +89,14 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
       const atStart = list.scrollLeft <= scrollTolerance;
       const atEnd = max - list.scrollLeft <= scrollTolerance;
       const overflow = max > scrollTolerance;
-      setLimits((previous) => previous.atStart === atStart && previous.atEnd === atEnd && previous.overflow === overflow
-        ? previous : { atStart, atEnd, overflow });
+      let position = 1;
+      if (compact && overflow && list.childElementCount > 1) {
+        const step = list.children[1].offsetLeft - list.children[0].offsetLeft;
+        position = Math.min(list.childElementCount, Math.round(list.scrollLeft / step) + 1);
+      }
+      setLimits((previous) => previous.atStart === atStart && previous.atEnd === atEnd
+        && previous.overflow === overflow && previous.position === position
+        ? previous : { atStart, atEnd, overflow, position });
     };
 
     const sizeObserver = new ResizeObserver(updateLimits);
@@ -102,20 +111,20 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
       viewObserver.disconnect();
       list.removeEventListener('scroll', updateLimits);
     };
-  }, []);
+  }, [compact]);
 
   useEffect(() => {
-    if (paused || reduced || hovered || !inView || !limits.overflow) return undefined;
+    if (!playing || hovered || !inView || !limits.overflow) return undefined;
 
     const timer = window.setInterval(() => {
       if (!document.hidden) moveShelf(listRef.current, 1, { repeat: true });
     }, 4600);
 
     return () => window.clearInterval(timer);
-  }, [paused, reduced, hovered, inView, limits.overflow]);
+  }, [playing, hovered, inView, limits.overflow]);
 
   function navigate(direction) {
-    setPaused(true);
+    setAutoplay(false);
     moveShelf(listRef.current, direction, { reduced });
   }
 
@@ -126,7 +135,7 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
       navigate(event.key === 'ArrowLeft' ? -1 : 1);
     } else if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault();
-      setPaused(true);
+      setAutoplay(false);
       const list = event.currentTarget;
       list.scrollTo({
         left: event.key === 'Home' ? 0 : list.scrollWidth - list.clientWidth,
@@ -142,19 +151,26 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
       aria-labelledby={`title-${id}`}
       onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovered(true); }}
       onPointerLeave={() => setHovered(false)}
-      onFocus={(event) => { if (event.target.matches(':focus-visible')) setPaused(true); }}
+      onFocus={(event) => { if (event.target.matches(':focus-visible')) setAutoplay(false); }}
     >
       <div className="library-shelf-head">
         <div className="library-shelf-label">
           <h2 id={`title-${id}`} className="library-shelf-title">{title}</h2>
-          <span className="library-shelf-count">{items.length} {items.length === 1 ? 'publicação' : 'publicações'}</span>
+          {(!compact || !limits.overflow) && (
+            <span className="library-shelf-count">{items.length} {items.length === 1 ? 'publicação' : 'publicações'}</span>
+          )}
         </div>
         {limits.overflow && (
           <div className="library-shelf-controls" role="group" aria-label={`Controles de ${title.toLowerCase()}`}>
+            {compact && (
+              <span className="library-shelf-position" aria-live={playing ? 'off' : 'polite'} aria-atomic="true">
+                <span className="library-sr-only">Publicação </span>{limits.position} de {items.length}
+              </span>
+            )}
             {!reduced && (
-              <button className="library-auto-button" type="button" aria-controls={`shelf-${id}`} onClick={() => setPaused((stopped) => !stopped)}>
-                <span aria-hidden="true">{paused ? '▶' : 'Ⅱ'}</span>
-                {paused ? 'Retomar' : 'Pausar'}
+              <button className="library-auto-button" type="button" aria-controls={`shelf-${id}`} onClick={() => setAutoplay(!playing)}>
+                <span aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span>
+                {playing ? 'Pausar' : compact ? 'Reproduzir' : 'Retomar'}
                 <span className="library-sr-only"> rolagem automática de {title.toLowerCase()}</span>
               </button>
             )}
@@ -175,8 +191,8 @@ export function BookShelf({ items = books, title = 'Livros', kind = 'book', sect
         aria-labelledby={`title-${id}`}
         tabIndex={limits.overflow ? 0 : undefined}
         onKeyDown={handleRailKeyDown}
-        onPointerDown={() => setPaused(true)}
-        onWheel={(event) => { if (Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey) setPaused(true); }}
+        onPointerDown={() => setAutoplay(false)}
+        onWheel={(event) => { if (Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey) setAutoplay(false); }}
       >
         {items.map((item) => <PublicationCard key={item.href} item={item} kind={kind} />)}
       </ul>
